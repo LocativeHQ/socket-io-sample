@@ -1,0 +1,35 @@
+<html>
+<head>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        var socket = io.connect('https://my.geofancy.com:443');
+        socket.emit('session', {username: '', password:''});
+        socket.on('session', function (data) {
+            console.log(data);
+        });
+        socket.on('fencelog', function (data) {
+            if (data.event === 'add') {
+                var fencelog = data.fencelog;
+                $('#fencelogs > body').append('<tr><td>' + fencelog.locationId + '</td><td>' + fencelog.eventType + '</td><td>' + fencelog.location[0] + '</td><td>' + fencelog.location[1] + '</td></tr>');
+            } else if (data.event === 'list') {
+                var fencelogs = data.fencelogs;
+                for (var i = fencelogs.length - 1; i >= 0; i--) {
+                    var fencelog = fencelogs[i];
+                    $('#fencelogs > tbody').append('<tr><td>' + fencelog.locationId + '</td><td>' + fencelog.eventType + '</td><td>' + fencelog.location[0] + '</td><td>' + fencelog.location[1] + '</td></tr>');
+                };
+            }
+        });
+    </script>
+    <table id="fencelogs">
+        <tr>
+            <th>Geofence ID</th>
+            <th>Event</th>
+            <th>Longitude</th>
+            <th>Latitude</th>
+        </tr>
+    </table>
+</body>
+</html>

@@ -13,7 +13,7 @@ var socket = io.connect('https://my.geofancy.com:443');
 and authenticate by emitting the **session** event
 
 ```
-socket.emit('session', {username: 'YOUR_USERNAME', password:'YOU_PASSWORD'});
+socket.emit('session', {username: 'YOUR_USERNAME', password:'YOUR_PASSWORD'});
 
 socket.on('session', function (data) {
 	console.log(data);
